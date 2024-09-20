@@ -1,4 +1,4 @@
-# cs370_nutrition_tracker
+# CS370_Nutrition_Tracker
 This project will build a Nutrition Tracker Web Application. 
 The app will include a user interface where people can input their daily meal plans/nutrition intake, 
 search for food information and past records, get weekly reports, and get suggestions based on current nutrition plans. 
