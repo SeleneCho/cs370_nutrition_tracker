@@ -1,0 +1,38 @@
+.daily-goals {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.daily-goals h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.goal {
+  margin-bottom: 15px;
+}
+
+.goal p {
+  margin: 0;
+  font-weight: bold;
+  color: #555;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+  height: 15px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.progress {
+  background-color: #ff66b2;
+  height: 100%;
+  border-radius: 5px 0 0 5px;
+}
