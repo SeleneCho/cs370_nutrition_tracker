@@ -1,0 +1,44 @@
+.dashboard {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-meal,
+.search-food,
+.weekly-reports,
+.suggestions {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 48%;
+}
+
+.daily-goals {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

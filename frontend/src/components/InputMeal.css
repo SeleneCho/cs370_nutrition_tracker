@@ -1,0 +1,45 @@
+.input-meal {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  .input-meal h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+  }
+  
+  .input-meal p {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .select-container,
+  .input-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  select,
+  input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(50% - 5px);
+  }
+  
+  .links {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .links a {
+    color: #4e73df;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
