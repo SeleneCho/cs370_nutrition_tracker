@@ -11,23 +11,26 @@ function App() {
   const location = useLocation(); // Get the current location
 
   useEffect(() => {
-    const valueDisplays = document.querySelectorAll(".num");
-    const interval = 2000;
+    // Run the animation only if we're on the home page
+    if (location.pathname === "/") {
+      const valueDisplays = document.querySelectorAll(".num");
+      const interval = 2000;
 
-    valueDisplays.forEach((valueDisplay) => {
-      let startValue = 0;
-      const endValue = parseInt(valueDisplay.getAttribute("data-val"));
-      const duration = Math.floor(interval / endValue);
+      valueDisplays.forEach((valueDisplay) => {
+        let startValue = 0;
+        const endValue = parseInt(valueDisplay.getAttribute("data-val"));
+        const duration = Math.floor(interval / endValue);
 
-      const counter = setInterval(() => {
-        startValue += 5;
-        valueDisplay.textContent = startValue;
-        if (startValue === endValue) {
-          clearInterval(counter);
-        }
-      }, duration);
-    });
-  }, []); 
+        const counter = setInterval(() => {
+          startValue += 5;
+          valueDisplay.textContent = startValue;
+          if (startValue === endValue) {
+            clearInterval(counter);
+          }
+        }, duration);
+      });
+    }
+  }, [location.pathname]); // Re-run animation when the path changes
 
   return (
     <div className="app-container">
