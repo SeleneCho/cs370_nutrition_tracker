@@ -35,18 +35,22 @@ const SearchFood = () => {
 
   return (
     <div className="search-food">
-      <h2>Search Food</h2>
-      <p>Search nutritional information for specific foods and products</p>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for food..."
-          required
-        />
-        <button type="submit">Search</button>
-      </form>
+      <div className="intro">
+        <h1>Search Food</h1>
+        <p>Search nutritional information for specific foods and products</p>
+      </div>
+      <div className="searchinput">
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for food..."
+            required
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
 
       {/* Modal to display food items */}
       {isModalOpen && (
