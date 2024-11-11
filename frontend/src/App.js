@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import InputMeal from "./components/InputMeal";
@@ -9,6 +9,25 @@ import Reports from "./components/Reports";
 
 function App() {
   const location = useLocation(); // Get the current location
+
+  useEffect(() => {
+    const valueDisplays = document.querySelectorAll(".num");
+    const interval = 2000;
+
+    valueDisplays.forEach((valueDisplay) => {
+      let startValue = 0;
+      const endValue = parseInt(valueDisplay.getAttribute("data-val"));
+      const duration = Math.floor(interval / endValue);
+
+      const counter = setInterval(() => {
+        startValue += 5;
+        valueDisplay.textContent = startValue;
+        if (startValue === endValue) {
+          clearInterval(counter);
+        }
+      }, duration);
+    });
+  }, []); 
 
   return (
     <div className="app-container">
@@ -27,15 +46,15 @@ function App() {
                   </div>
                   <div className="daily">
                     <div className="calories">
-                      <h1>1000</h1>
+                      <span class="num" data-val="700">000</span>
                       <p>Cal</p>
                     </div>
                     <div className="protein">
-                      <h1>40</h1>
+                      <span class="num" data-val="40">000</span>
                       <p>g, protein</p>
                     </div>
                     <div className="carbs">
-                      <h1>100</h1>
+                      <span class="num" data-val="230">000</span>
                       <p>g, carbs</p>
                     </div>
                   </div>

@@ -68,7 +68,7 @@ body {
   margin: 0 10px; /* Adds space between the divs */
 }
 
-.daily h1 {
+.daily .num {
   margin: 0; /* Removes default margin */
   line-height: 1; /* Ensures the <h1> has a consistent line height */
   font-size: 120px;
