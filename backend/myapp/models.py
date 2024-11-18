@@ -35,11 +35,3 @@ class MealItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.food_item.name} in {self.meal}"
-
-# In tracker/admin.py
-from django.contrib import admin
-from .models import FoodItem, Meal, MealItem
-
-admin.site.register(FoodItem)
-admin.site.register(Meal)
-admin.site.register(MealItem)
