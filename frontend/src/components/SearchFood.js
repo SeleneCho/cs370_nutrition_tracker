@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
-import "./SearchFood.css"; // Ensure the CSS is imported
+import "./SearchFood.css";
 
 const SearchFood = () => {
   const [query, setQuery] = useState("");
   const [foodItems, setFoodItems] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
-  const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedMeal, setSelectedMeal] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async (e) => {
@@ -18,7 +18,7 @@ const SearchFood = () => {
           `http://localhost:8000/api/search/?query=${query}`
         );
         setFoodItems(response.data.foods);
-        setIsModalOpen(true); // Open modal when results are found
+        setIsModalOpen(true);
       } catch (error) {
         console.error("Error fetching food data:", error);
       }
@@ -29,8 +29,41 @@ const SearchFood = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  const handleMealSelect = (meal, item) => {
-    setSelectedMeal({ meal, item });
+  const handleMealSelect = (meal) => {
+    setSelectedMeal(meal);
+  };
+
+  const handleSaveFood = async (item) => {
+    // Ensure the meal is selected before saving
+    if (!selectedMeal) {
+      alert("Please select a meal time before saving.");
+      return;
+    }
+
+    // Extracting protein, carb, and fat values from nutrients
+    const foodData = {
+      date_added: new Date().toISOString().split("T")[0], // format date as yyyy-mm-dd
+      meal: selectedMeal,
+      food_name: item.description,
+      brand_name: item.brandName || "",
+      protein:
+        item.nutrients.find((n) => n.nutrientName === "Protein")?.value || 0,
+      carbohydrate:
+        item.nutrients.find(
+          (n) => n.nutrientName === "Carbohydrate, by difference"
+        )?.value || 0,
+      fat:
+        item.nutrients.find((n) => n.nutrientName === "Total lipid (fat)")
+          ?.value || 0,
+    };
+
+    try {
+      await axios.post("http://localhost:8000/api/selected-food/", foodData);
+      alert("Food saved successfully!");
+    } catch (error) {
+      console.error("Error saving food:", error);
+      alert("Failed to save food.");
+    }
   };
 
   return (
@@ -48,15 +81,10 @@ const SearchFood = () => {
         <button type="submit">Search</button>
       </form>
 
-      {/* Modal to display food items */}
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            {/* Close Button */}
-            <button
-              className="close-btn"
-              onClick={() => setIsModalOpen(false)}
-            >
+            <button className="close-btn" onClick={() => setIsModalOpen(false)}>
               <FaTimes />
             </button>
             <h3>Food Results</h3>
@@ -70,12 +98,17 @@ const SearchFood = () => {
                     <span>
                       {item.description} - {item.brandName}
                     </span>
-                    {expandedIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                    {expandedIndex === index ? (
+                      <FaChevronUp />
+                    ) : (
+                      <FaChevronDown />
+                    )}
                   </div>
                   {expandedIndex === index && (
-                    <div>
+                    <div className="expanded-details">
                       <p>
-                        <strong>Ingredients:</strong> {item.ingredients.join(", ")}
+                        <strong>Ingredients:</strong>{" "}
+                        {item.ingredients.join(", ")}
                       </p>
                       <p>
                         <strong>Data Type:</strong> {item.dataType}
@@ -103,13 +136,20 @@ const SearchFood = () => {
                       </ul>
                       {/* Meal Selection Dropdown */}
                       <select
-                        onChange={(e) => handleMealSelect(e.target.value, item)}
+                        onChange={(e) => handleMealSelect(e.target.value)}
                       >
                         <option value="">Select Meal Time</option>
-                        <option value="Breakfast">Breakfast</option>
-                        <option value="Lunch">Lunch</option>
-                        <option value="Dinner">Dinner</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
                       </select>
+                      {/* Save Button */}
+                      <button
+                        className="save-btn"
+                        onClick={() => handleSaveFood(item)}
+                      >
+                        Save Food
+                      </button>
                     </div>
                   )}
                 </li>

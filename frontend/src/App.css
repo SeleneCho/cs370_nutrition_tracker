@@ -1,4 +1,4 @@
-.dashboard {
+/* .dashboard {
   padding: 20px;
   background-color: #f4f4f4;
 }
@@ -41,4 +41,111 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+} */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+}
+
+:root {
+  --bg-color: #ede8dc;
+  --lightgreen: #c1cfa1;
+  --lightergreen: #c1cfa18e;
+  --darkgreen: #a5b68d;
+  --darkergreen: #3c552d;
+  --pink: #e7cccc;
+}
+
+body {
+  background: rgb(237, 232, 220);
+  background: radial-gradient(
+    circle,
+    rgba(237, 232, 220, 1) 5%,
+    rgba(231, 204, 204, 1) 100%
+  );
+}
+
+.app-container {
+  display: flex; /* Creates a side-by-side layout */
+  height: 100vh; /* Full viewport height */
+}
+
+.navigation-bar {
+  flex: 0 0 250px; /* Fixed width for the navigation bar */
+  background-color: var(--lightgreen);
+  padding: 1rem;
+  height: 100%; /* Full height */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-section {
+  flex: 0 0 45%;
+  padding: 20px;
+}
+
+.welcome {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-block: 30px;
+  padding-left: 20px;
+  font-size: 18px;
+  color: var(--darkergreen);
+}
+
+.daily {
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-top: 20px;
+  display: flex; /* Sets the container to flex mode */
+  justify-content: space-between; /* Distributes space evenly */
+  align-items: stretch;
+  color: var(--darkergreen);
+}
+
+.daily > div {
+  display: flex;
+  align-items: baseline; /* Aligns <h1> and <p> at their baseline */
+  margin: 0 10px; /* Adds space between the divs */
+}
+
+.daily .num {
+  margin: 0; /* Removes default margin */
+  line-height: 1; /* Ensures the <h1> has a consistent line height */
+  font-size: 120px;
+}
+
+p {
+  margin: 0; /* Removes default margin */
+  margin-left: 5px; /* Adds space between <h1> and <p> */
+  display: inline-flex; /* Ensures <p> aligns properly with <h1> */
+  align-self: baseline; /* Aligns <p> at the baseline */
+  font-size: 2em; /* Adjusts the font size if needed */
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  flex: 0 0 55%;
+  padding: 20px;
+}
+
+.input-meal,
+.search-food {
+  background-color: #ede8dcc9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin: 0 10px;
 }

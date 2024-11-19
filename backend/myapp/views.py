@@ -1,6 +1,11 @@
 import requests
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import SelectedFood
+from .serializers import SelectedFoodSerializer
 
 API_KEY = 'xmvenD9mvPwPfjBKSXyKkkxwbiig90mIrbaI4TgJ'  # Replace with your actual API key
 
@@ -49,3 +54,12 @@ def search_food(request):
             return JsonResponse({'error': 'Failed to fetch data from API'}, status=response.status_code)
 
     return JsonResponse({'error': 'Query parameter is required'}, status=400)
+
+# Add SelectedFoodView here to save selected food to the database
+class SelectedFoodView(APIView):
+    def post(self, request):
+        serializer = SelectedFoodSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
