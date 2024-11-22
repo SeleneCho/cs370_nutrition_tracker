@@ -1,0 +1,11 @@
+.get-reports h1 {
+  padding: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-block: 30px;
+  padding-left: 20px;
+  font-size: 20px;
+  color: var(--darkergreen);
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+}
