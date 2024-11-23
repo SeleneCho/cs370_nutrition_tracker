@@ -6,11 +6,12 @@ from django.contrib.auth.models import User
 
 class FoodItem(models.Model):
     name = models.CharField(max_length=200)
+    brand_name = models.CharField(max_length=100, blank=True, null=True)
     calories = models.IntegerField()
     protein = models.FloatField()
     carbs = models.FloatField()
     fat = models.FloatField()
-    fdc_id = models.CharField(max_length=50, unique=True)  # USDA FoodData Central ID
+    fdc_id = models.CharField(max_length=50, unique=False)  # USDA FoodData Central ID
 
     def __str__(self):
         return self.name
