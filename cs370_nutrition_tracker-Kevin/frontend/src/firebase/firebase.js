@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBMYsRRBoN5E152UvF4wcWIubn0ThRbDd0",
+  apiKey: "api key",
   authDomain: "practice-website-test-ab3ea.firebaseapp.com",
   projectId: "practice-website-test-ab3ea",
   storageBucket: "practice-website-test-ab3ea.firebasestorage.app",
