@@ -98,46 +98,75 @@ def create_meal(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-
-@api_view(['GET'])
-#@permission_classes([IsAuthenticated])
-def get_meals(request):
-    date_str = request.GET.get('date')
     
+@api_view(['GET'])
+def get_meals(request):
     try:
-        if date_str:
-            date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            meals = Meal.objects.filter(user=request.user, date=date)
-        else:
-            meals = Meal.objects.filter(user=request.user).order_by('-date')[:10]
+        # Fetch all FoodItem objects
+        food_items = FoodItem.objects.all()
 
-        meals_data = []
-        for meal in meals:
-            meal_items = []
-            for item in meal.mealitem_set.all():
-                meal_items.append({
-                    'food_name': item.food_item.name,
-                    'brand_name': item.food_item.brand_name,
-                    'quantity': item.quantity,
-                    'calories': item.food_item.calories * item.quantity,
-                    'protein': item.food_item.protein * item.quantity,
-                    'carbs': item.food_item.carbs * item.quantity,
-                    'fat': item.food_item.fat * item.quantity
-                })
+        # Prepare data for the response
+        food_items_data = [
+            {
+                'id': food.id,
+                'name': food.name,
+                'brand_name': food.brand_name,
+                'calories': food.calories,
+                'protein': food.protein,
+                'carbs': food.carbs,
+                'fat': food.fat,
+            }
+            for food in food_items
+        ]
 
-            meals_data.append({
-                'id': meal.id,
-                'meal_type': meal.meal_type,
-                'date': meal.date,
-                'items': meal_items
-            })
+        # Return the food items as JSON response
+        return JsonResponse({'food_items': food_items_data})
 
-        return JsonResponse({'meals': meals_data})
-
-    except ValueError:
-        return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD'}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+# @api_view(['GET'])
+# def get_meals(request):
+#     from django.contrib.auth.models import User
+#     try:
+#         # Use a placeholder user for development
+#         user = User.objects.get(username='selene')  
+        
+#         date_str = request.GET.get('date')
+#         if date_str:
+#             date = datetime.strptime(date_str, '%Y-%m-%d').date()
+#             meals = Meal.objects.filter(user=user, date=date)
+#         else:
+#             meals = Meal.objects.filter(user=user).order_by('-date')[:10]
+
+#         meals_data = []
+#         for meal in meals:
+#             meal_items = []
+#             for item in meal.mealitem_set.all():
+#                 meal_items.append({
+#                     'food_name': item.food_item.name,
+#                     'brand_name': item.food_item.brand_name,
+#                     'quantity': item.quantity,
+#                     'calories': item.food_item.calories * item.quantity,
+#                     'protein': item.food_item.protein * item.quantity,
+#                     'carbs': item.food_item.carbs * item.quantity,
+#                     'fat': item.food_item.fat * item.quantity,
+#                 })
+
+#             meals_data.append({
+#                 'id': meal.id,
+#                 'meal_type': meal.meal_type,
+#                 'date': meal.date,
+#                 'items': meal_items,
+#                 'username': user.username  # Include username for frontend grouping
+#             })
+
+#         return JsonResponse({'meals': meals_data})
+
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=500)
+
     
 class SelectedFoodView(APIView):
     # Remove permission_classes if you don't need authentication for now
