@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+frontend/node_modules
 /.pnp
 .pnp.js
 
@@ -21,12 +22,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
-=======
 
 
 /backend/backend/__pycache__/
 node_modules/.cache/
 /.idea
 /.conda
->>>>>>> claire-to-selene
