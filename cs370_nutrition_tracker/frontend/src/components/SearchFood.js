@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
 import "./SearchFood.css";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const SearchFood = () => {
   const [query, setQuery] = useState("");
@@ -9,6 +10,8 @@ const SearchFood = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [selectedMeal, setSelectedMeal] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const currentUser = getAuth().currentUser;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -42,6 +45,7 @@ const SearchFood = () => {
 
     // Extracting protein, carb, and fat values from nutrients
     const foodData = {
+      firebase_uid: currentUser.uid,
       meal_type:selectedMeal,
       date: new Date().toISOString().split("T")[0], // format date as yyyy-mm-dd
       food_items: [{  // Wrap in food_items array as expected by create_meal

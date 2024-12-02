@@ -1,7 +1,6 @@
 import requests
 from django.http import JsonResponse
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 from .models import FoodItem, Meal, MealItem
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -59,20 +58,32 @@ def search_food(request):
 # existing search_food view from source code
 
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
 def create_meal(request):
+    """
+    Create new meals with associated food items.
+    Now requires Firebase UID in headers.
+    """
     try:
         data = request.data
+        firebase_uid = data.get('firebase_uid')
+
+        #check for Firebase UID in request body
+        if not firebase_uid:
+            return Response({'error': 'Firebase UID is required'}, 
+                          status=status.HTTP_400_BAD_REQUEST)
+
+        
         meal_type = data.get('meal_type')
         date_str = data.get('date')
-        food_items = data.get('food_items', [])  # List of {food_item_id, quantity}
+        food_items = data.get('food_items', [])
 
-        if not meal_type or not date_str or not food_items:
-            return JsonResponse({'error': 'Missing required fields'}, status=400)
+        if not all([meal_type, date_str, food_items]):
+            return Response({'error': 'Missing required fields'}, 
+                          status=status.HTTP_400_BAD_REQUEST)
 
-        # Create meal
+        # Create meal with Firebase UID
         meal = Meal.objects.create(
-            user_id=1, #request.user,
+            firebase_uid=firebase_uid,
             meal_type=meal_type,
             date=datetime.strptime(date_str, '%Y-%m-%d').date()
         )
@@ -81,7 +92,7 @@ def create_meal(request):
         for item in food_items:
             food_item = FoodItem.objects.create(
                 name=item['food_name'],
-                brand_name=item.get('brand_name', ''),  # Add this line
+                brand_name=item.get('brand_name', ''),
                 calories=item.get('calories', 0),
                 protein=float(item.get('protein', 0)),
                 carbs=float(item.get('carbs', 0)),
@@ -94,22 +105,35 @@ def create_meal(request):
                 quantity=item.get('quantity', 1.0)
             )
 
-        return JsonResponse({'message': 'Meal created successfully', 'meal_id': meal.id})
+        return Response({
+            'message': 'Meal created successfully',
+            'meal_id': meal.id
+        }, status=status.HTTP_201_CREATED)
 
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+
 def get_meals(request):
-    date_str = request.GET.get('date')
-    
+    """
+    Retrieve meals for a specific user.
+    Also updated to require Firebase UID in headers.
+    """
     try:
+        firebase_uid = request.GET.get('firebase_uid')
+
+        #check for Firebase UID in request body
+        if not firebase_uid:
+            return Response({'error': 'Firebase UID is required'}, 
+                          status=status.HTTP_400_BAD_REQUEST)
+
+        date_str = request.GET.get('date')
         if date_str:
             date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            meals = Meal.objects.filter(user=request.user, date=date)
+            meals = Meal.objects.filter(firebase_uid=firebase_uid, date=date)
         else:
-            meals = Meal.objects.filter(user=request.user).order_by('-date')[:10]
+            meals = Meal.objects.filter(firebase_uid=firebase_uid).order_by('-date')[:10]
 
         meals_data = []
         for meal in meals:
@@ -132,89 +156,69 @@ def get_meals(request):
                 'items': meal_items
             })
 
-        return JsonResponse({'meals': meals_data})
+        return Response({'meals': meals_data})
 
     except ValueError:
-        return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD'}, status=400)
+        return Response({'error': 'Invalid date format. Use YYYY-MM-DD'}, 
+                       status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
-    
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class SelectedFoodView(APIView):
-    # Remove permission_classes if you don't need authentication for now
+    """
+    Handle selected food items from the search results.
+    This class breaks down the food data and creates the necessary database entries.
+    IMPORTANT-don't remove
+    """
     def post(self, request):
         try:
-            # First create food item without user
-            food_item = FoodItem.objects.create(
-                name=request.data.get('food_name', request.data.get('description', '')),  # Handle both field names
-                calories=0,
-                protein=float(next((n['value'] for n in request.data.get('nutrients', []) 
-                                  if 'Protein' in n['nutrientName']), 0)),
-                carbs=float(next((n['value'] for n in request.data.get('nutrients', []) 
-                                if 'Carbohydrate' in n['nutrientName']), 0)),
-                fat=float(next((n['value'] for n in request.data.get('nutrients', []) 
-                              if 'Fat' in n['nutrientName']), 0)),
-                fdc_id=request.data.get('fdc_id', 'manual-entry')
-            )
+            # Get Firebase UID from headers
+            firebase_uid = request.headers.get('Firebase-UID')
+            if not firebase_uid:
+                return Response({'error': 'Firebase-UID header is required'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
 
-            # Create meal without user
-            meal = Meal.objects.create(
-                user_id=1,  # Set a default user ID for testing
-                date=datetime.strptime(request.data.get('date_added', datetime.now().strftime('%Y-%m-%d')), '%Y-%m-%d').date(),
-                meal_type=request.data.get('meal', 'breakfast')
-            )
-
-            # Create meal item
-            meal_item = MealItem.objects.create(
-                meal=meal,
-                food_item=food_item,
-                quantity=1.0
-            )
-
-            return Response({
-                'message': 'Food saved successfully',
-                'meal_id': meal.id,
-                'food_item_id': food_item.id
-            }, status=status.HTTP_201_CREATED)
-
-        except Exception as e:
-            return Response({
-                'error': str(e)
-            }, status=status.HTTP_400_BAD_REQUEST)
-        
-#below is the final version we are going to use with user authentication
-#delete the entire SelectedFoodView Class
-    
-'''
-class SelectedFoodView(APIView):
-    def post(self, request):
-        try:
-            # First create food item
+            # Extract nutrients from the food data
             nutrients = request.data.get('nutrients', [])
-            protein = next((n['value'] for n in nutrients if 'Protein' in n['nutrientName']), 0)
-            carbs = next((n['value'] for n in nutrients if 'Carbohydrate' in n['nutrientName']), 0)
-            fat = next((n['value'] for n in nutrients if 'Fat' in n['nutrientName']), 0)
+            # Find energy/calories (usually labeled as 'Energy')
+            calories = next((n['value'] for n in nutrients 
+                           if 'Energy' in n['nutrientName']), 0)
+            # Find protein content
+            protein = next((n['value'] for n in nutrients 
+                          if 'Protein' in n['nutrientName']), 0)
+            # Find carbohydrate content
+            carbs = next((n['value'] for n in nutrients 
+                        if 'Carbohydrate' in n['nutrientName']), 0)
+            # Find fat content
+            fat = next((n['value'] for n in nutrients 
+                       if 'Fat' in n['nutrientName']), 0)
             
+            # Create the food item
             food_item = FoodItem.objects.create(
-                name=request.data['food_name'],
-                calories=0,  # You might want to calculate this
-                protein=protein,
-                carbs=carbs,
-                fat=fat,
+                name=request.data.get('description', ''),
+                brand_name=request.data.get('brandName', ''),
+                calories=calories,
+                protein=float(protein),
+                carbs=float(carbs),
+                fat=float(fat),
                 fdc_id=request.data.get('fdc_id', 'manual-entry')
             )
 
-            # Create meal
+            # Create the meal
             meal = Meal.objects.create(
-                user=request.user,
-                date=datetime.strptime(request.data['date_added'], '%Y-%m-%d').date(),
-                meal_type=request.data['meal']
+                firebase_uid=firebase_uid,
+                date=datetime.strptime(
+                    request.data.get('date', datetime.now().strftime('%Y-%m-%d')),
+                    '%Y-%m-%d'
+                ).date(),
+                meal_type=request.data.get('meal_type', 'breakfast')
             )
 
-            # Create meal item
+            # Create the meal item (linking food item to meal)
             meal_item = MealItem.objects.create(
                 meal=meal,
                 food_item=food_item,
-                quantity=1.0  # Default quantity
+                quantity=request.data.get('quantity', 1.0)
             )
 
             return Response({
@@ -227,34 +231,3 @@ class SelectedFoodView(APIView):
             return Response({
                 'error': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request):
-        try:
-            # Get recent meals
-            meals = Meal.objects.filter(user=request.user).order_by('-date')[:10]
-            meals_data = []
-            
-            for meal in meals:
-                meal_items = []
-                for item in meal.mealitem_set.all():
-                    meal_items.append({
-                        'food_name': item.food_item.name,
-                        'quantity': item.quantity,
-                        'protein': item.food_item.protein,
-                        'carbs': item.food_item.carbs,
-                        'fat': item.food_item.fat
-                    })
-                
-                meals_data.append({
-                    'date': meal.date,
-                    'meal_type': meal.meal_type,
-                    'items': meal_items
-                })
-            
-            return Response(meals_data)
-        
-        except Exception as e:
-            return Response({
-                'error': str(e)
-            }, status=status.HTTP_400_BAD_REQUEST)
-'''
