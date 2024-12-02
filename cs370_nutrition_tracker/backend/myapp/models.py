@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-from django.contrib.auth.models import User
 
 class FoodItem(models.Model):
     name = models.CharField(max_length=200)
@@ -11,13 +10,14 @@ class FoodItem(models.Model):
     protein = models.FloatField()
     carbs = models.FloatField()
     fat = models.FloatField()
-    fdc_id = models.CharField(max_length=50, unique=False)  # USDA FoodData Central ID
+    fdc_id = models.CharField(max_length=50, unique=False)
 
     def __str__(self):
         return self.name
 
 class Meal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # Store Firebase UID directly 
+    firebase_uid = models.CharField(max_length=128, null=True, blank=True)
     date = models.DateField()
     meal_type = models.CharField(max_length=20, choices=[
         ('breakfast', 'Breakfast'),
@@ -27,7 +27,7 @@ class Meal(models.Model):
     ])
 
     def __str__(self):
-        return f"{self.user.username}'s {self.meal_type} on {self.date}"
+        return f"Meal {self.meal_type} on {self.date} by user {self.firebase_uid}"
 
 class MealItem(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
