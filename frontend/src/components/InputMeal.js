@@ -24,11 +24,46 @@
 
 import React, { useState } from "react";
 import "./InputMeal.css";
+import axios from 'axios';
 
 function InputMeal() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Breakfast");
   const [mealName, setMealName] = useState(""); // State for user input
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!mealName.trim()) {
+      alert("Please enter a meal name");
+      return;
+    }
+  
+    const foodData = {
+      meal_type: selectedOption.toLowerCase(),
+      date: new Date().toISOString().split("T")[0],
+      food_items: [{  // Wrap in food_items array
+        food_name: mealName,
+        quantity: 1,
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0
+      }]
+    };
+  
+    try {
+      await axios.post("http://localhost:8000/api/meals/create/", foodData,{
+          headers: {
+            'Content-Type': 'application/json',
+          }
+      });
+      alert("Meal saved successfully!");
+      setMealName(""); // Clear the input
+    } catch (error) {
+      console.error("Error saving meal:", error);
+      console.log("Error response:", error.response?.data);
+      alert(error.response?.data?.message || "Failed to save meal.");
+    }
+  };
 
   const handleSelectClick = () => {
     setIsOpen(!isOpen);
@@ -80,10 +115,12 @@ function InputMeal() {
         </div>
       </div>
       <div className="addmeals">
-        <a href="/">Add</a>
+        <button onClick={handleSubmit}>Add</button>
       </div>
     </div>
   );
 }
 
 export default InputMeal;
+
+

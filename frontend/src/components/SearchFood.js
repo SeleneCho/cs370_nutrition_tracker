@@ -42,27 +42,33 @@ const SearchFood = () => {
 
     // Extracting protein, carb, and fat values from nutrients
     const foodData = {
-      date_added: new Date().toISOString().split("T")[0], // format date as yyyy-mm-dd
-      meal: selectedMeal,
-      food_name: item.description,
-      brand_name: item.brandName || "",
-      protein:
-        item.nutrients.find((n) => n.nutrientName === "Protein")?.value || 0,
-      carbohydrate:
-        item.nutrients.find(
-          (n) => n.nutrientName === "Carbohydrate, by difference"
-        )?.value || 0,
-      fat:
-        item.nutrients.find((n) => n.nutrientName === "Total lipid (fat)")
-          ?.value || 0,
+      meal_type:selectedMeal,
+      date: new Date().toISOString().split("T")[0], // format date as yyyy-mm-dd
+      food_items: [{  // Wrap in food_items array as expected by create_meal
+        food_name: item.description,
+        quantity: 1,
+        // Extract nutrient values
+        calories: item.nutrients.find(n => n.nutrientName.includes('Energy'))?.value || 0,
+        protein: item.nutrients.find(n => n.nutrientName.includes('Protein'))?.value || 0,
+        carbs: item.nutrients.find(n => n.nutrientName.includes('Carbohydrate'))?.value || 0,
+        fat: item.nutrients.find(n => n.nutrientName.includes('Fat'))?.value || 0
+      }]
     };
 
     try {
-      await axios.post("http://localhost:8000/api/selected-food/", foodData);
+      await axios.post("http://localhost:8000/api/meals/create/", foodData,
+        {
+          headers:{
+          'content-Type': 'application/json',
+          }
+        }
+      );
       alert("Food saved successfully!");
+      setIsModalOpen(false); // Close modal after successful save
     } catch (error) {
       console.error("Error saving food:", error);
-      alert("Failed to save food.");
+      console.log("Error response:", error.response?.data); //added a line for more debugging info
+      alert(error.response?.data?.error||"Failed to save food.");
     }
   };
 
