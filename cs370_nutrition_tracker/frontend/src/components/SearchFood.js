@@ -173,3 +173,12 @@ const SearchFood = () => {
 };
 
 export default SearchFood;
+
+
+//Fetch data using: await axios.get( 'http://localhost:8000/api/meals/range/?start_date=2024-03-01&end_date=2024-03-31&firebase_uid=${currentUser.uid}' );
+/**To get currentUser.uid
+* add this line:
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+* define currentUser:
+    const currentUser = getAuth().currentUser;
