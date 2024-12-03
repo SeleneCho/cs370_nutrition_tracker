@@ -61,7 +61,7 @@ def search_food(request):
 def create_meal(request):
     """
     Create new meals with associated food items.
-    Now requires Firebase UID in headers.
+    Now requires Firebase UID.
     """
     try:
         data = request.data
@@ -118,30 +118,41 @@ def create_meal(request):
 def get_meals(request):
     """
     Retrieve meals for a specific user.
-    Also updated to require Firebase UID in headers.
+    Fetch meals within a date range for a specific user.
+    Query parameters:
+    - start_date: Start of date range (YYYY-MM-DD)
+    - end_date: End of date range (YYYY-MM-DD)
+    - firebase_uid: User's Firebase UID.
     """
     try:
+        # Get date range from query parameters
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
         firebase_uid = request.GET.get('firebase_uid')
 
-        #check for Firebase UID in request body
-        if not firebase_uid:
-            return Response({'error': 'Firebase UID is required'}, 
-                          status=status.HTTP_400_BAD_REQUEST)
+        if not all([start_date, end_date, firebase_uid]):
+            return Response(
+                {'error': 'start_date, end_date, and firebase_uid are required'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        date_str = request.GET.get('date')
-        if date_str:
-            date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            meals = Meal.objects.filter(firebase_uid=firebase_uid, date=date)
-        else:
-            meals = Meal.objects.filter(firebase_uid=firebase_uid).order_by('-date')[:10]
+        # Convert string dates to datetime objects
+        start = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end = datetime.strptime(end_date, '%Y-%m-%d').date()
 
+        # Query meals within the date range for the specific user
+        meals = Meal.objects.filter(
+            firebase_uid=firebase_uid,
+            date__range=[start, end]
+        ).order_by('date')
+
+        # Format the response data
         meals_data = []
         for meal in meals:
             meal_items = []
             for item in meal.mealitem_set.all():
                 meal_items.append({
                     'food_name': item.food_item.name,
-                    'brand_name': item.food_item.brand_name,
                     'quantity': item.quantity,
                     'calories': item.food_item.calories * item.quantity,
                     'protein': item.food_item.protein * item.quantity,
@@ -150,19 +161,23 @@ def get_meals(request):
                 })
 
             meals_data.append({
-                'id': meal.id,
-                'meal_type': meal.meal_type,
                 'date': meal.date,
+                'meal_type': meal.meal_type,
                 'items': meal_items
             })
 
         return Response({'meals': meals_data})
 
     except ValueError:
-        return Response({'error': 'Invalid date format. Use YYYY-MM-DD'}, 
-                       status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': 'Invalid date format. Use YYYY-MM-DD'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
     except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 class SelectedFoodView(APIView):
     """
