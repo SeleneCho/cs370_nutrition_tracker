@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./NavigationBar.css";
-// Make sure Font Awesome is included in your project
-// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
 function NavigationBar() {
   const navigate = useNavigate();
@@ -19,10 +17,10 @@ function NavigationBar() {
 
       <nav className="sidebar">
         <div
-          className={`menu-item ${activeItem === "/" ? "is-active" : ""}`}
+          className={`menu-item ${activeItem === "/home" ? "is-active" : ""}`}
           onClick={() => {
-            navigate("/");
-            setActiveItem("/");
+            navigate("/home");
+            setActiveItem("/home");
           }}
         >
           <i className="fas fa-home"></i> Home {/* Icon for Home */}
@@ -35,15 +33,6 @@ function NavigationBar() {
           }}
         >
           <i className="fas fa-chart-line"></i> Weekly Reports {/* Icon for Reports */}
-        </div>
-        <div
-          className={`menu-item ${activeItem === "/auth" ? "is-active" : ""}`}
-          onClick={() => {
-            navigate("/auth");
-            setActiveItem("/auth");
-          }}
-        >
-          <i className="fas fa-sign-in-alt"></i> Login {/* Icon for Login */}
         </div>
       </nav>
     </aside>

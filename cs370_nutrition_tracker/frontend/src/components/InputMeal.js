@@ -4,7 +4,12 @@ import './InputMeal.css';
 function InputMeal() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Breakfast');
-  const [mealName, setMealName] = useState(''); // State for user input
+  const [mealName, setMealName] = useState('');
+  const [totalcals, setTotalCals] = useState('');
+  const [totalprotein, setTotalProtein] = useState('');
+  const [totalcarbs, setTotalCarbs] = useState('');
+  const [totalsugar, setTotalSugar] = useState('');
+  const [totalfat, setTotalFat] = useState('');
 
   const handleSelectClick = () => {
     setIsOpen(!isOpen);
@@ -15,10 +20,9 @@ function InputMeal() {
     setIsOpen(false);
   };
 
-  const handleInputChange = (event) => {
-    setMealName(event.target.value); // Updates the state with user input
+  const handleInputChange = (setter) => (event) => {
+    setter(event.target.value); // Updates the state with user input
   };
-
   return (
     <div className="input-meal">
       <div className="intro">
@@ -48,8 +52,55 @@ function InputMeal() {
             type="text"
             placeholder="Enter Meal"
             value={mealName}
-            onChange={handleInputChange}
+            onChange={(e) => setMealName(e.target.value)}
           />
+        </div>
+      </div>
+      <div className="nutrition">
+        <div className="cal">
+          <input
+            type="num"
+            placeholder="Enter amount"
+            value={totalcals}
+            onChange={handleInputChange(setTotalCals)}
+          />
+          <p>total Calories</p>
+        </div>
+        <div className="pro">
+          <input
+            type="num"
+            placeholder="Enter amount"
+            value={totalprotein}
+            onChange={handleInputChange(setTotalProtein)}
+          />
+          <p>g, protein</p>
+        </div>
+        <div className="carb">
+          <input
+            type="num"
+            placeholder="Enter amount"
+            value={totalcarbs}
+            onChange={handleInputChange(setTotalCarbs)}
+          />
+          <p>total g, carbs</p>
+        </div>
+        <div className="sugar">
+          <input
+            type="num"
+            placeholder="Enter amount"
+            value={totalsugar}
+            onChange={handleInputChange(setTotalSugar)}
+          />
+          <p>total g, sugars</p>
+        </div>
+        <div className="fat">
+          <input
+            type="num"
+            placeholder="Enter amount"
+            value={totalfat}
+            onChange={handleInputChange(setTotalFat)}
+          />
+          <p>total g, fat</p>
         </div>
       </div>
       <div className="addmeals">

@@ -82,7 +82,7 @@ function App() {
     {
       path: "/reports",
       element: (
-        <div className="dashboard">
+        <div className="app-container">
           <NavigationBar />
           <div className="main-content">
             <Header />
@@ -90,8 +90,7 @@ function App() {
           </div>
         </div>
       ),
-    },
-    { path: "*", element: <Login /> },
+    }
   ];
 
   let routesElement = useRoutes(routesArray);

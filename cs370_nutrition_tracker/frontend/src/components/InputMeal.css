@@ -101,12 +101,12 @@
 }
 
 .input-meal .entermeal {
-  flex: 1; /* Takes up the remaining space */
+  width: 60%; /* Set a specific width for .entermeal */
+  max-width: 400px; /* Optional limit */
   display: flex;
-  align-items: center; /* Centers the input vertically */
-  max-width: 60%; /* Limits to 60% of the parent */
+  align-items: center;
   margin-right: 1rem;
-  box-sizing: border-box; /* Ensures padding/border are included in width */
+  box-sizing: border-box;
 }
 
 .input-meal .entermeal input {
@@ -142,6 +142,44 @@
 .input-meal .dropdown .menu.menu-open {
   display: block; /* Ensures the dropdown shows */
   opacity: 1; /* Makes it fully visible */
+}
+
+.nutrition {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
+  gap: 0.5rem;
+  margin-left: 235px;
+  margin-right: 15px;
+  margin-top: 20px;
+  width: 60%; /* Matches the width of .entermeal */
+  max-width: 400px; /* Same optional limit as .entermeal */
+  box-sizing: border-box;
+}
+
+.nutrition > div {
+  display: flex;
+  align-items: baseline; /* Aligns input and p text to the baseline */
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.nutrition input {
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem; /* Space between input and label */
+  width: 60%; /* Consistent width for inputs */
+  box-sizing: border-box;
+}
+
+.nutrition p {
+  color: #23242a;
+  font-size: 15px;
+  font-weight: 200;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .input-meal .addmeals {
