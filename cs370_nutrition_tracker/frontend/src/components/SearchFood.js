@@ -181,4 +181,5 @@ export default SearchFood;
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 * define currentUser:
-    const currentUser = getAuth().currentUser;
+    const currentUser = getAuth().currentUser;**/
+    
