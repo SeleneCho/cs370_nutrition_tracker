@@ -1,73 +1,10 @@
-// import React from 'react';
-// import './InputMeal.css';
-
-// function InputMeal() {
-//   return (
-//     <div className="input-meal">
-//       <h2>Input Meal</h2>
-//       <p>Quickly log your meals to keep track of calories and nutrients throughout the day</p>
-//       <select>
-//         <option value="breakfast">Breakfast</option>
-//         <option value="lunch">Lunch</option>
-//         <option value="dinner">Dinner</option>
-//       </select>
-//       <input type="text" placeholder="Enter Meal" />
-//       <div className="links">
-//         <a href="/">Add more info</a>
-//         <a href="/">Quick input</a>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default InputMeal;
-
-import React, { useState } from "react";
-import "./InputMeal.css";
-import axios from 'axios';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useState } from 'react';
+import './InputMeal.css';
 
 function InputMeal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Breakfast");
-  const [mealName, setMealName] = useState(""); // State for user input
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!mealName.trim()) {
-      alert("Please enter a meal name");
-      return;
-    }
-
-    const currentUser = getAuth().currentUser;
-  
-    const foodData = {
-      firebase_uid: currentUser.uid,
-      meal_type: selectedOption.toLowerCase(),
-      date: new Date().toISOString().split("T")[0],
-      food_items: [{  // Wrap in food_items array
-        food_name: mealName,
-        quantity: 1,
-        calories: 0,
-        protein: 0,
-        carbs: 0,
-        fat: 0
-      }]
-    };
-  
-    try {
-      await axios.post("http://localhost:8000/api/meals/create/", foodData,{
-          headers: {
-            'Content-Type': 'application/json',
-          }
-      });
-      alert("Meal saved successfully!");
-      setMealName(""); // Clear the input
-    } catch (error) {
-      console.error("Error saving meal:", error);
-      console.log("Error response:", error.response?.data);
-      alert(error.response?.data?.message || "Failed to save meal.");
-    }
-  };
+  const [selectedOption, setSelectedOption] = useState('Breakfast');
+  const [mealName, setMealName] = useState(''); // State for user input
 
   const handleSelectClick = () => {
     setIsOpen(!isOpen);
@@ -90,18 +27,15 @@ function InputMeal() {
       </div>
       <div className="input-container">
         <div className="dropdown">
-          <div
-            className={`select ${isOpen ? "select-clicked" : ""}`}
-            onClick={handleSelectClick}
-          >
+          <div className={`select ${isOpen ? 'select-clicked' : ''}`} onClick={handleSelectClick}>
             <span className="selected">{selectedOption}</span>
-            <div className={`caret ${isOpen ? "caret-rotate" : ""}`}></div>
+            <div className={`caret ${isOpen ? 'caret-rotate' : ''}`}></div>
           </div>
-          <ul className={`menu ${isOpen ? "menu-open" : ""}`}>
-            {["Breakfast", "Lunch", "Dinner"].map((option) => (
+          <ul className={`menu ${isOpen ? 'menu-open' : ''}`}>
+            {['Breakfast', 'Lunch', 'Dinner'].map((option) => (
               <li
                 key={option}
-                className={selectedOption === option ? "active" : ""}
+                className={selectedOption === option ? 'active' : ''}
                 onClick={() => handleOptionClick(option)}
               >
                 {option}
@@ -119,7 +53,7 @@ function InputMeal() {
         </div>
       </div>
       <div className="addmeals">
-        <button onClick={handleSubmit}>Add</button>
+        <a href="/">Add</a>
       </div>
     </div>
   );

@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation, useRoutes } from "react-router-dom";
-import DailyGoals from "./components/DailyGoals";
 import InputMeal from "./components/InputMeal";
 import SearchFood from "./components/SearchFood";
 import Reports from "./components/Reports";
-import Suggestions from "./components/Suggestions";
 import NavigationBar from "./components/NavigationBar";
 import Header from "./components/header";
 import Login from "./components/auth/login";
@@ -43,7 +41,7 @@ function App() {
     {
       path: "/home",
       element: (
-        <div className="dashboard">
+        <div className="app-container">
           <NavigationBar />
           <div className="main-content">
             <Header />
@@ -73,11 +71,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="grid-container">
-              <DailyGoals />
-              <Suggestions />
-            </div>
-            <div className="flex-container">
+            <div className="bottom-section">
               <InputMeal />
               <SearchFood />
             </div>

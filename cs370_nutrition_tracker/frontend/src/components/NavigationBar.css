@@ -1,23 +1,9 @@
 /* NavigationBar.css */
-/* .navigation-bar {
-  display: flex;
-  justify-content: flex-start;
-  padding: 10px;
-  background-color: #f0f0f0;
-}
-
-.nav-button {
-  margin-right: 10px;
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-} */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: 'Roboto';
 }
 
 .navigation-bar {
@@ -28,7 +14,7 @@
 }
 
 .navigation-bar h3 {
-  color: #3c552d;
+  color: #3C552D;
   text-align: center;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -42,7 +28,7 @@
 .navigation-bar .sidebar .menu-item {
   display: block;
   padding: 1rem;
-  color: #1a3636;
+  color: #1A3636;
   text-decoration: none;
   transition: 0.2s linear;
 }
@@ -57,12 +43,27 @@
   border-right: 5px solid #000000;
 }
 
-.navigation-bar .sidebar .menu-item:hover {
-  text-align: right;
+.navigation-bar .sidebar .menu-item:hover{
+  text-align:right;
 }
 
-@media (max-width: 1024px) {
-  .navigation-bar {
+@media (max-width: 1024px){
+  .navigation-bar{
     max-width: 200px;
   }
 }
+/*
+.navigation-bar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.nav-button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+*/
