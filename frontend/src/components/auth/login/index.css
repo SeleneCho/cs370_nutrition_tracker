@@ -1,0 +1,163 @@
+/* Main container for the login page */
+.main-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7fafc; /* Light gray background */
+  }
+  
+  /* Login card container */
+  .login-card {
+    width: 24rem; /* 384px */
+    color: #4a5568; /* Text gray */
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Card shadow */
+    border: 1px solid #e2e8f0; /* Border gray */
+    border-radius: 0.75rem; /* Rounded corners */
+    background-color: white;
+  }
+  
+  /* Centered text for the title */
+  .text-center {
+    text-align: center;
+  }
+  
+  .login-title {
+    color: #1a202c; /* Darker gray */
+    font-size: 1.5rem; /* Large font */
+    font-weight: 600; /* Bold */
+    margin-bottom: 1rem;
+  }
+  
+  /* Form styles */
+  .form {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 1rem; /* Space between fields */
+  }
+  
+  /* Input container (email/password) */
+  .input-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form labels */
+  .form-label {
+    font-size: 0.875rem; /* Small text */
+    color: #4a5568; /* Gray text */
+    font-weight: 700; /* Bold */
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input fields */
+  .input-field {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0; /* Border gray */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #5a67d8; /* Indigo border on focus */
+    box-shadow: 0 0 0 2px rgba(90, 103, 216, 0.3); /* Indigo focus shadow */
+    outline: none;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: #e53e3e; /* Red */
+    font-weight: bold;
+    font-size: 0.875rem;
+    margin-top: -0.5rem; /* Slight adjustment to align correctly */
+  }
+  
+  /* Button styles */
+  .button {
+    width: 100%;
+    padding: 0.75rem;
+    color: #fff; /* White text */
+    background-color: #5a67d8; /* Indigo */
+    border: none;
+    border-radius: 0.375rem; /* Rounded corners */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #4c51bf; /* Darker indigo */
+  }
+  
+  .button:disabled {
+    background-color: #cbd5e0; /* Gray for disabled */
+    cursor: not-allowed;
+  }
+  
+  /* Sign-up link styles */
+  .sign-up-link {
+    text-align: center;
+    font-size: 0.875rem; /* Small text */
+    margin-top: 1rem;
+  }
+  
+  .sign-up-link a {
+    font-weight: bold;
+    color: #5a67d8; /* Indigo link color */
+    text-decoration: underline;
+  }
+  
+  /* Separator for "OR" */
+  .separator {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+  
+  .separator div {
+    flex: 1;
+    height: 1px;
+    background-color: #e2e8f0; /* Light gray */
+  }
+  
+  .separator span {
+    margin: 0 0.5rem;
+    font-size: 0.875rem; /* Small text */
+    font-weight: bold;
+    color: #4a5568; /* Gray text */
+  }
+  
+  /* Google Sign-In button */
+  .google-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem; /* Space between icon and text */
+    padding: 0.75rem;
+    background-color: #fff;
+    border: 1px solid #e2e8f0; /* Border gray */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-weight: 500;
+    font-size: 0.875rem; /* Small text */
+    color: #000; /* Black font */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .google-button:hover {
+    background-color: #edf2f7; /* Light hover effect */
+  }
+  
+  .google-button:disabled {
+    cursor: not-allowed;
+    background-color: #f7fafc; /* Slightly lighter background */
+  }
+  
+  /* Google button icon styling */
+  .google-button svg {
+    margin-right: 0.5rem; /* Space between icon and text */
+  }
+  
