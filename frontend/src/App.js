@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useRoutes } from "react-router-dom";
+import { useLocation, useRoutes, Navigate } from "react-router-dom";
 import InputMeal from "./components/InputMeal";
 import SearchFood from "./components/SearchFood";
 import Reports from "./components/Reports";
@@ -157,6 +157,7 @@ function App() {
         </div>
       ),
     },
+    { path: "/", element: <Navigate replace to="/login" /> }, 
   ];
 
   let routesElement = useRoutes(routesArray);
