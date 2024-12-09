@@ -1,0 +1,24 @@
+.logout{
+    padding: 7px;
+}
+.logout-button {
+    padding: 5px 7px; /* Adds space inside the button */
+    font-size: 1rem; /* Makes the text larger */
+    border-radius: 8px; /* Rounds the corners of the button */
+    background-color: var(--navy); /* Sets a background color */
+    color: white; /* Sets the text color */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    text-decoration: none; /* Removes the underline */
+    display: inline-block; /* Ensures proper button sizing */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth hover animations */
+  }
+  
+  .logout-button:hover {
+    background-color: #375ab9; /* Darkens the background on hover */
+    transform: scale(1.05); /* Slightly enlarges the button on hover */
+  }
+  
+  .logout-button:active {
+    background-color: #2a3f88; /* Darkens the background further on click */
+    transform: scale(0.95); /* Shrinks slightly when clicked */
+  }
