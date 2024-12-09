@@ -1,0 +1,221 @@
+/* General Layout */
+body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background: linear-gradient(to bottom, #f5ebe0, #e7cbc7); /* Background gradient */
+  color: #3c552d; /* Text color */
+}
+
+.dashboard {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.navigation-bar {
+  width: 15%; /* Left navigation bar */
+  height: 100%; /* Full height */
+  background-color: #f9f6f2; /* Beige background */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  width: 85%; /* Remaining width for content */
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.header h2 {
+  font-size: 1.25rem;
+  color: #6d7967; /* Light green text for the subtitle */
+}
+
+/* Grid Layout for Daily Goals and Suggestions */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 2rem; /* Space between grid items */
+  margin-bottom: 2rem;
+}
+
+/* Flex Layout for Input Meal and Search Food */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem; /* Space between items */
+}
+
+/* Child Flex Items */
+.flex-container > * {
+  flex: 1; /* Equal width for all children */
+  min-width: 300px; /* Prevent items from shrinking too much */
+}
+
+/* Top Section Numbers */
+.top-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.top-section .daily {
+  display: flex;
+  justify-content: center;
+  gap: 2rem; /* Space between numbers */
+}
+
+.top-section .daily div {
+  text-align: center;
+}
+
+.num {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #3c552d; /* Dark green */
+}
+
+.num + p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #6d7967; /* Light green */
+}
+
+/* Card Styling for Components */
+.card {
+  background-color: #f9f6f2; /* Beige background */
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Menu Items */
+.menu-item {
+  padding: 1rem 1.5rem;
+  color: #3c552d;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-item:hover,
+.menu-item.is-active {
+  color: #1a3636; /* Dark green */
+  border-right: 4px solid #1a3636;
+}
+
+/* Suggestions Styling */
+.suggestions {
+  text-align: center;
+  background-color: #f9f6f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Log Meal Section */
+.input-meal {
+  background-color: #f9f6f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-meal .intro h1 {
+  font-size: 1.5rem;
+  color: #3c552d;
+  margin-bottom: 0.5rem;
+}
+
+.input-meal .intro p {
+  color: #6d7967;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdown {
+  flex: 1;
+  position: relative;
+}
+
+.dropdown .select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.entermeal input {
+  flex: 2;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+}
+
+.addmeals button {
+  padding: 0.5rem 1rem;
+  background-color: #4e73df;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addmeals button:hover {
+  background-color: #3b62bf;
+}
+
+/* Search Food Section */
+.search-food {
+  background-color: #f9f6f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-food input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+}
+
+.search-food button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.search-food button:hover {
+  background-color: #0056b3;
+}
+
+/* Reports Section */
+.get-reports {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.get-reports h1 {
+  font-size: 1.5rem;
+  color: #3c552d;
+}
