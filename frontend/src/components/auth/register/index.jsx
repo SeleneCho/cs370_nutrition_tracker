@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Navigate, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../contexts/authContext'
 import { doCreateUserWithEmailAndPassword } from '../../../firebase/auth'
-import "./index.css"; // Import global styles
+import "../register/index.css"; // Import global styles
+
 const Register = () => {
 
     const navigate = useNavigate()
@@ -17,9 +18,30 @@ const Register = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        if(!isRegistering) {
-            setIsRegistering(true)
-            await doCreateUserWithEmailAndPassword(email, password)
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            setErrorMessage("Passwords do not match.");
+            return;
+        }
+
+        // Check password strength (e.g., minimum length)
+        if (password.length < 6) {
+            setErrorMessage("Password must be at least 6 characters long.");
+            return;
+        }
+
+        try {
+            if (!isRegistering) {
+                setIsRegistering(true)
+                await doCreateUserWithEmailAndPassword(email, password)
+                navigate("/home");
+            }
+        } catch (error) {
+            // Friendly error message for failed registration
+            setErrorMessage("Failed to create an account. Please try again.");
+        } finally {
+            setIsRegistering(false);
         }
     }
 
