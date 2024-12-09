@@ -5,7 +5,6 @@
 .input-meal{
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   width: 100%; /* Full width of the container */
   max-width: 100%; /* Prevents it from expanding beyond its parent */
   box-sizing: border-box;
@@ -33,7 +32,7 @@
   margin-right: 1rem;
   box-sizing: border-box;
   align-items: center;
-  min-width: 15em;
+  min-width: 19em;
   position: relative;
 }
 
@@ -67,7 +66,7 @@
   height:0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 6px solid #fff;
+  border-top: 6px solid var(--navy);
   transition: 0.3s;
 }
 
@@ -102,11 +101,14 @@
 }
 
 .input-meal .entermeal {
-  display: flex;
-  flex: 0 0 60%;
-  align-items: center;
+  flex: 0 0 40%;
   margin-right: 1rem;
   box-sizing: border-box;
+  align-items: center;
+  min-width: 19em;
+  position: relative;
+  padding-bottom: 20px;
+  padding-top: 5px;
 }
 
 .input-meal .entermeal input {
@@ -146,258 +148,67 @@
 
 .nutrition {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Align items to the left */
-  gap: 0.5rem;
-  margin-left: 235px;
-  margin-right: 15px;
-  margin-top: 20px;
-  width: 60%; /* Matches the width of .entermeal */
-  max-width: 400px; /* Same optional limit as .entermeal */
-  box-sizing: border-box;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  gap: 0.5rem; /* Add space between rows */
+  width: 100%; /* Take full width of the parent container */
+  max-width: 400px; /* Optional: Limit the maximum width */
+  margin: 0 auto; /* Center the nutrition section itself */
+  box-sizing: border-box; /* Ensure padding and borders are included in width */
+  padding-bottom: 15px;
 }
 
 .nutrition > div {
-  display: flex;
-  align-items: baseline; /* Aligns input and p text to the baseline */
-  justify-content: flex-start;
-  width: 100%;
+  display: flex; /* Arrange input and label in a row */
+  align-items: center; /* Align items vertically in the center */
+  justify-content: space-between; /* Ensure spacing between input and label */
+  width: 70%; /* Full width for each row */
 }
 
 .nutrition input {
-  padding: 0.3rem;
+  padding: 0.7rem; /* Add padding for better sizing */
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc; /* Consistent border */
   border-radius: 4px;
-  margin-right: 0.5rem; /* Space between input and label */
-  width: 60%; /* Consistent width for inputs */
-  box-sizing: border-box;
+  width: calc(70% - 0.5rem); /* Take up 70% of the row minus margin */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  text-align: center; /* Center the text in the input field */
 }
 
 .nutrition p {
+  font-size: 1rem; /* Adjust the label font size */
   color: #23242a;
-  font-size: 15px;
-  font-weight: 200;
+  font-weight: 400; /* Increase font weight slightly for readability */
   margin: 0;
-  white-space: nowrap;
+  width: 30%; /* Ensure the label takes up 30% of the row */
+  text-align: right; /* Align the label text to the right */
+  padding-top: 10px;
 }
 
 .input-meal .addmeals {
   position: absolute; /* Positions it absolutely within input-meal */
-  bottom: 2rem; /* Adjusts the position from the bottom */
   right: 3rem; /* Adjusts the position from the right */
+  top: 3rem;
   display: flex;
   gap: 20px;
 }
 
-.input-meal .addmeals a {
-  color: #4e73df;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1em;
-}/* .input-meal {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
-  }
-  
-  .input-meal h2 {
-    margin-bottom: 10px;
-    font-size: 1.5em;
-  }
-  
-  .input-meal p {
-    font-size: 0.9em;
-    color: #555;
-    margin-bottom: 15px;
-  }
-  
-  .select-container,
-  .input-container {
-    display: flex;
-    gap: 10px;
-  }
-  
-  select,
-  input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: calc(50% - 5px);
-  }
-  
-  .links {
-    margin-top: 20px;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .links a {
-    color: #4e73df;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9em;
-  } */
-
-* {
-  font-family: "Roboto", sans-serif;
+.input-meal .addmeals button {
+  padding: 5px 10px; /* Adds padding inside the button */
+  font-size: 1.2rem; /* Makes the text larger */
+  border-radius: 8px; /* Rounds the corners of the button */
+  background-color: var(--navy); /* Sets a background color */
+  color: white; /* Sets the text color */
+  cursor: pointer; /* Changes the cursor to a pointer on hover */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth hover animations */
 }
 
-.input-meal {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 100%; /* Full width of the container */
-  max-width: 100%; /* Prevents it from expanding beyond its parent */
-  box-sizing: border-box;
-  position: relative;
+.input-meal .addmeals button:hover {
+  background-color: #375ab9; /* Darkens the background on hover */
+  transform: scale(1.05); /* Slightly enlarges the button on hover */
 }
 
-.input-meal .intro h1 {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  font-size: 1.5em;
-  color: #3c552d;
-  font-weight: 600;
-}
-
-.input-meal .intro p {
-  margin-top: 5px;
-  font-size: 1em;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.input-meal .dropdown {
-  flex: 0 0 40%;
-  margin-right: 1rem;
-  box-sizing: border-box;
-  align-items: center;
-  min-width: 15em;
-  position: relative;
-}
-
-.input-meal .dropdown * {
-  box-sizing: border-box;
-}
-
-.input-meal .dropdown .select {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px #2a2f3b solid;
-  border-radius: 0.5em;
-  padding: 0.7em;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.select-clicked {
-  border: 2px #26489a solid;
-  box-shadow: 0 0 0.8em #26489a;
-}
-
-.input-meal .dropdown .select:hover {
-  background: #323741;
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid #fff;
-  transition: 0.3s;
-}
-
-.caret-rotate {
-  transform: rotate(180deg);
-}
-
-.input-meal .dropdown .menu {
-  list-style: none;
-  padding: 0.2em 0.5em;
-  background: #323741;
-  border: 1px #2a3663 solid;
-  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
-  border-radius: 0.5em;
-  color: #9fa5b5;
-  position: absolute;
-  top: 3em;
-  left: 50%;
-  width: 100%;
-  transform: translateX(-50%);
-  opacity: 0;
-  display: none;
-  z-index: 1;
-}
-
-.input-meal .input-container {
-  display: flex; /* Flex container for dropdown and input */
-  justify-content: space-between; /* Spaces items evenly */
-  align-items: center; /* Aligns items vertically in the center */
-  width: 100%; /* Ensures the input-container takes up full width */
-  box-sizing: border-box; /* Makes sure padding/border are included in width */
-}
-
-.input-meal .entermeal {
-  flex: 1; /* Takes up the remaining space */
-  display: flex;
-  align-items: center; /* Centers the input vertically */
-  max-width: 60%; /* Limits to 60% of the parent */
-  margin-right: 1rem;
-  box-sizing: border-box; /* Ensures padding/border are included in width */
-}
-
-.input-meal .entermeal input {
-  width: 100%; /* Full width of the input */
-  border: 2px #2a2f3b solid;
-  border-radius: 0.5em;
-  padding: 1em;
-  box-sizing: border-box; /* Ensures padding/border are included in width */
-  outline: none;
-  transition: background 0.3s;
-}
-
-.input-meal .entermeal input:focus {
-  border: 2px #26489a solid;
-  box-shadow: 0 0 0.8em #26489a;
-}
-
-.input-meal .dropdown .menu li {
-  padding: 0.7em 0.5em;
-  margin: 0.3em 0;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-
-.input-meal .dropdown .menu li:hover {
-  background: #2a2d35;
-}
-
-.active {
-  background: #23242a;
-}
-
-.input-meal .dropdown .menu.menu-open {
-  display: block; /* Ensures the dropdown shows */
-  opacity: 1; /* Makes it fully visible */
-}
-
-.input-meal .addmeals {
-  position: absolute; /* Positions it absolutely within input-meal */
-  bottom: 2rem; /* Adjusts the position from the bottom */
-  right: 3rem; /* Adjusts the position from the right */
-  display: flex;
-  gap: 20px;
-}
-
-.input-meal .addmeals a {
-  color: #4e73df;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1em;
+.input-meal .addmeals button:active {
+  transform: scale(0.95); /* Shrinks slightly when clicked */
+  background-color: #2a3f88; /* Darkens the background further on click */
 }
