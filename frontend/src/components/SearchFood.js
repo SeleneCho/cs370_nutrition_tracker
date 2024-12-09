@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
 import "./SearchFood.css";
+import { getAuth } from "firebase/auth";
 
 const SearchFood = () => {
   const [query, setQuery] = useState("");
@@ -9,6 +10,8 @@ const SearchFood = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [selectedMeal, setSelectedMeal] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const currentUser = getAuth().currentUser;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -39,36 +42,42 @@ const SearchFood = () => {
       alert("Please select a meal time before saving.");
       return;
     }
-
-    // Extracting protein, carb, and fat values from nutrients
+  
+    // Extract nutrient values for fat, carbs, and protein
+    const fat = item.nutrients.find((n) => n.nutrientName.includes("Fat"))?.value || 0;
+    const carbs = item.nutrients.find((n) => n.nutrientName.includes("Carbohydrate"))?.value || 0;
+    const protein = item.nutrients.find((n) => n.nutrientName.includes("Protein"))?.value || 0;
+    const calories = item.nutrients.find((n) => n.unitName.includes("KCAL"))?.value || 0;
+  
     const foodData = {
-      meal_type:selectedMeal,
+      firebase_uid: currentUser.uid,
+      meal_type: selectedMeal,
       date: new Date().toISOString().split("T")[0], // format date as yyyy-mm-dd
-      food_items: [{  // Wrap in food_items array as expected by create_meal
-        food_name: item.description,
-        quantity: 1,
-        // Extract nutrient values
-        calories: item.nutrients.find(n => n.nutrientName.includes('Energy'))?.value || 0,
-        protein: item.nutrients.find(n => n.nutrientName.includes('Protein'))?.value || 0,
-        carbs: item.nutrients.find(n => n.nutrientName.includes('Carbohydrate'))?.value || 0,
-        fat: item.nutrients.find(n => n.nutrientName.includes('Fat'))?.value || 0
-      }]
-    };
-
-    try {
-      await axios.post("http://localhost:8000/api/meals/create/", foodData,
+      food_items: [
         {
-          headers:{
-          'content-Type': 'application/json',
-          }
-        }
-      );
+          food_name: item.description,
+          quantity: 1,
+          calories: +calories.toFixed(0), // Send as a number
+          protein: +protein.toFixed(2), // Convert to number
+          carbs: +carbs.toFixed(2), // Convert to number
+          fat: +fat.toFixed(2), // Convert to number
+        },
+      ],
+    };
+  
+    try {
+      await axios.post("http://localhost:8000/api/meals/create/", foodData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       alert("Food saved successfully!");
       setIsModalOpen(false); // Close modal after successful save
+      window.location.reload();
     } catch (error) {
       console.error("Error saving food:", error);
-      console.log("Error response:", error.response?.data); //added a line for more debugging info
-      alert(error.response?.data?.error||"Failed to save food.");
+      console.log("Error response:", error.response?.data);
+      alert(error.response?.data?.error || "Failed to save food. Please try again.");
     }
   };
 

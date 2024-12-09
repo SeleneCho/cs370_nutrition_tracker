@@ -7,10 +7,11 @@
 }
 
 .navigation-bar {
-  flex: 1 1 0;
   max-width: 200px;
   padding: 2rem 1rem;
   background-color: #c1cfa17d;
+  flex: 1; /* Allow it to grow and fill the height */
+  height: 100%; /* Ensure it explicitly takes the full height */
 }
 
 .navigation-bar h3 {
@@ -52,6 +53,7 @@
     max-width: 200px;
   }
 }
+
 /*
 .navigation-bar {
   display: flex;

@@ -1,3 +1,4 @@
+/**
 .get-reports h1 {
   padding: 20px;
   padding-top: 30px;
@@ -8,4 +9,89 @@
   color: var(--darkergreen);
   font-family: "Roboto", sans-serif;
   font-weight: 600;
+}
+**/
+
+.reports-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .reports-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.meal-details {
+  background-color: #ede8dcc7;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.meal-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.meal-section:last-child {
+  border-bottom: none;
+}
+
+.meal-item {
+  padding: 8px 0;
+}
+
+.meal-total,
+.daily-total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+/* FullCalendar customizations */
+.fc {
+  max-width: 100%;
+  background: #ede8dcc9;
+}
+
+.fc-header-toolbar {
+  padding: 12px;
+}
+
+.fc-event {
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.fc-day:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.meal-details-card {
+  padding: 12px;
+}
+
+.meal-detail-title {
+  padding-bottom: 12px;
+  color: var(--navy);
+}
+
+.meal-type {
+  color: var(--navy);
+  background-color: var(--lightergreen);
+}
+
+.daily-total-title {
+  color: var(--navy);
+  padding-bottom: 12px;
+  
 }

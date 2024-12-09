@@ -32,7 +32,7 @@ function NavigationBar() {
             setActiveItem("/reports");
           }}
         >
-          <i className="fas fa-chart-line"></i> Weekly Reports {/* Icon for Reports */}
+          <i className="fas fa-chart-line"></i> Reports {/* Icon for Reports */}
         </div>
       </nav>
     </aside>
